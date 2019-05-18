@@ -9,7 +9,7 @@ const User = require('../../models/User');
 const UserProfile = require('../../models/UserProfile');
 
 // @route  POST api/profile
-// @desc   create/update profile
+// @desc   create/update user profile
 // @access private
 router.post(
   '/',
@@ -24,7 +24,7 @@ router.post(
         .isEmpty(),
       check(
         'skills',
-        'At least skill is required. Skills are comma separated values.'
+        'At least one skill is required. Skills are comma separated values.'
       )
         .not()
         .isEmpty()
@@ -135,15 +135,35 @@ router.get('/user/:userId', async (req, res) => {
   }
 });
 
-// @route  DELETE api/profile/user/:userId
-// @desc   get profile by userId
+// @route  DELETE api/profile
+// @desc   delete profile and user
 // @access public
-router.get('/user/:userId', async (req, res) => {
+router.delete('/', auth, async (req, res) => {
   try {
     // delete profile
-    await Profile.findOne({ user: req.user.is });
+    await UserProfile.findOneAndRemove({ user: req.user.is });
     // delete user
-    await User.findOne({ _id: req.user.id });
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    return res.json({ msg: 'User and Profile have been deleted' });
+  } catch (err) {
+    console.error(err.message);
+
+    return res.status(500).send('server error');
+  }
+});
+
+// @route  PUT api/profile/skills
+// @desc   add or update user skills in profile
+// @access private
+router.put('/skills', async (req, res) => {
+  try {
+    // delete profile
+    await UserProfile.findOneAndRemove({ user: req.user.is });
+    // delete user
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    return res.json({ msg: 'User and Profile have been deleted' });
   } catch (err) {
     console.error(err.message);
 
