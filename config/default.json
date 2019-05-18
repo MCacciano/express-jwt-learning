@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongo db connect string",
-  "jwtSecret": "jwt secret key"
+  "mongoURI": "mongodb+srv://mozzey:11Qazse4rR@codeflow-rtqyy.mongodb.net/test?retryWrites=true",
+  "jwtSecret": "secret"
 }
